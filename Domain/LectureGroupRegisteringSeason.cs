@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain
+{
+    public enum ExamSeasonStatus
+    {
+        Opened,
+        Closed,
+        In_Process
+    }
+    public class LectureGroupRegisteringSeason
+    {
+        [Key]
+        public int LGRSId { get; set; }
+
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        public ExamSeasonStatus ExamSeasonStatus { get; set; }
+        public int Faculty { get; set; }
+
+        public int Semester { get; set; }
+
+        public ICollection<LectureGroup> LectureGroups { get; set; } = new List<LectureGroup>();
+    }
+}
