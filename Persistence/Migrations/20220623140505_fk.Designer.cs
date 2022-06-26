@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(LectureGroupContext))]
-    partial class LectureGroupContextModelSnapshot : ModelSnapshot
+    [Migration("20220623140505_fk")]
+    partial class fk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,8 +82,8 @@ namespace Persistence.Migrations
                     b.Property<int>("LectureHallId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("LectureType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("LectureType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("TEXT");
@@ -131,8 +133,8 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ExamSeasonStatus")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ExamSeasonStatus")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Faculty")
                         .HasColumnType("INTEGER");

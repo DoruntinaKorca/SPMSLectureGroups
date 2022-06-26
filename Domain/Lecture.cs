@@ -21,7 +21,7 @@ namespace Domain
 
         public DateTime EndTime { get; set; }
 
-        public LectureType LectureType { get; set; }
+        public String LectureType { get; set; }
         public int LectureHallId { get; set; }
 
         public LectureHall LectureHall { get; set; }
@@ -29,7 +29,9 @@ namespace Domain
         //course osht ne modul tjeter
         public int CourseId { get; set; }
 
-        public Guid AcademicStaff { get; set; }
+        public Guid AcademicStaffId { get; set; }
+
+        public Course_AcademicStaff Course_AcademicStaff { get; set; }
 
         public int LectureGroupId { get; set; }
 

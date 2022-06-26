@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Core;
+using Application.Queries.Lectures;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,9 +37,11 @@ namespace API
             services.AddDbContext<LectureGroupContext>(opt =>
             {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-              
+                opt.LogTo(Console.WriteLine);
             });
 
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            services.AddMediatR(typeof(GetAllLectures.Handler).Assembly);
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>

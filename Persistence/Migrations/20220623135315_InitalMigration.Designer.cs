@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(LectureGroupContext))]
-    [Migration("20220622165433_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220623135315_InitalMigration")]
+    partial class InitalMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,13 +18,56 @@ namespace Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.17");
 
+            modelBuilder.Entity("Domain.AcademicStaff", b =>
+                {
+                    b.Property<Guid>("AcademicStaffId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AcademicStaffId");
+
+                    b.ToTable("AcademicStaff");
+                });
+
+            modelBuilder.Entity("Domain.Course", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CourseName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CourseId");
+
+                    b.ToTable("Course");
+                });
+
+            modelBuilder.Entity("Domain.Course_AcademicStaff", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("AcademicStaffId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CourseId", "AcademicStaffId");
+
+                    b.HasIndex("AcademicStaffId");
+
+                    b.ToTable("Course_AcademicStaff");
+                });
+
             modelBuilder.Entity("Domain.Lecture", b =>
                 {
                     b.Property<int>("LectureId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("AcademicStaff")
+                    b.Property<Guid>("AcademicStaffId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CourseId")
@@ -50,6 +93,8 @@ namespace Persistence.Migrations
                     b.HasIndex("LectureGroupId");
 
                     b.HasIndex("LectureHallId");
+
+                    b.HasIndex("CourseId", "AcademicStaffId");
 
                     b.ToTable("Lectures");
                 });
@@ -81,6 +126,9 @@ namespace Persistence.Migrations
                     b.Property<int>("LGRSId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
@@ -122,6 +170,27 @@ namespace Persistence.Migrations
                     b.ToTable("LectureHalls");
                 });
 
+            modelBuilder.Entity("Domain.Course_AcademicStaff", b =>
+                {
+                    b.HasOne("Domain.AcademicStaff", "AcademicStaff")
+                        .WithMany("CourseAcademicStaff")
+                        .HasForeignKey("AcademicStaffId")
+                        .HasConstraintName("academicStaffCourse")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Course", "Course")
+                        .WithMany("CourseAcademicStaff")
+                        .HasForeignKey("CourseId")
+                        .HasConstraintName("courseAcademicStaff")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AcademicStaff");
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Domain.Lecture", b =>
                 {
                     b.HasOne("Domain.LectureGroup", "LectureGroup")
@@ -138,6 +207,15 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Course_AcademicStaff", "Course_AcademicStaff")
+                        .WithMany("Lectures")
+                        .HasForeignKey("CourseId", "AcademicStaffId")
+                        .HasConstraintName("courseAcademicSTAFF_FK")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course_AcademicStaff");
+
                     b.Navigation("LectureGroup");
 
                     b.Navigation("LectureHall");
@@ -153,6 +231,21 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("LGRS");
+                });
+
+            modelBuilder.Entity("Domain.AcademicStaff", b =>
+                {
+                    b.Navigation("CourseAcademicStaff");
+                });
+
+            modelBuilder.Entity("Domain.Course", b =>
+                {
+                    b.Navigation("CourseAcademicStaff");
+                });
+
+            modelBuilder.Entity("Domain.Course_AcademicStaff", b =>
+                {
+                    b.Navigation("Lectures");
                 });
 
             modelBuilder.Entity("Domain.LectureGroup", b =>

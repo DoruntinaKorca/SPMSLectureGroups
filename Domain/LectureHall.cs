@@ -16,7 +16,9 @@ namespace Domain
 
         public int Capacity { get; set; }
 
-        public int Location { get; set; }
+        public int LocationId { get; set; }
+
+        public Location Location { get; set; }
 
         public ICollection<Lecture> Lectures { get; set; } = new List<Lecture>();
     }

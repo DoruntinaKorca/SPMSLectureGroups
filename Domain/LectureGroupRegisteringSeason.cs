@@ -18,12 +18,12 @@ namespace Domain
         [Key]
         public int LGRSId { get; set; }
 
-
+        public String Description { get; set; }
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        public ExamSeasonStatus ExamSeasonStatus { get; set; }
+        public String ExamSeasonStatus { get; set; }
         public int Faculty { get; set; }
 
         public int Semester { get; set; }
