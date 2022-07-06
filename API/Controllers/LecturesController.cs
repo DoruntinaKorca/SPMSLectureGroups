@@ -1,4 +1,5 @@
 
+using Application.Commands.Lectures;
 using Application.DTOs.LectureDtos;
 using Application.Queries.Lectures;
 using Domain;
@@ -17,7 +18,7 @@ namespace API.Controllers
         {
             var lectures = await Mediator.Send(new GetAllLectures.Query());
 
-            return lectures;
+            return HandleResult(lectures);
 
         }
 
@@ -26,7 +27,7 @@ namespace API.Controllers
         {
             var schedule = await Mediator.Send(new GetScheduleForAcademicStaff.Query { AcademicStaffId = id });
 
-            return schedule;
+            return HandleResult(schedule);
         }
 
         [HttpGet("{id}")]
@@ -34,8 +35,28 @@ namespace API.Controllers
         {
             var lecture = await Mediator.Send(new GetLectureById.Query { LectureId = id});
 
-            return lecture;
+            return HandleResult(lecture);
 
+        }
+
+        [HttpPost("{courseId}/{academicStaffId}")]
+        public async Task<IActionResult> AddLecture(RequestLectureDto lectureDto, int courseId, Guid academicStaffId)
+        {
+     
+            return HandleResult(await Mediator.Send(new AddLecture.Command { LectureDto = lectureDto, CourseId = courseId, AcademicStaffId = academicStaffId }));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditLecture(RequestLectureDto lectureDto, int id)
+        {
+
+            return HandleResult(await Mediator.Send(new EditLecture.Command { LectureDto = lectureDto, LectureId = id }));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteLecture(int id)
+        {
+            return HandleResult(await Mediator.Send(new DeleteLecture.Command { LectureId = id }));
         }
     }
 }

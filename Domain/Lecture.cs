@@ -26,7 +26,7 @@ namespace Domain
 
         public LectureHall LectureHall { get; set; }
 
-        //course osht ne modul tjeter
+
         public int CourseId { get; set; }
 
         public Guid AcademicStaffId { get; set; }

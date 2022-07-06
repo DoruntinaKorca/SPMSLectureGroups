@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitalMigration : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,8 @@ namespace Persistence.Migrations
                 name: "AcademicStaff",
                 columns: table => new
                 {
-                    AcademicStaffId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    FullName = table.Column<string>(type: "TEXT", nullable: true)
+                    AcademicStaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -20,45 +20,30 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Course",
+                name: "Courses",
                 columns: table => new
                 {
-                    CourseId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CourseName = table.Column<string>(type: "TEXT", nullable: true)
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Course", x => x.CourseId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LectureHalls",
-                columns: table => new
-                {
-                    LectureHallId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    HallName = table.Column<string>(type: "TEXT", nullable: true),
-                    Capacity = table.Column<int>(type: "INTEGER", nullable: false),
-                    Location = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LectureHalls", x => x.LectureHallId);
+                    table.PrimaryKey("PK_Courses", x => x.CourseId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "LGRS",
                 columns: table => new
                 {
-                    LGRSId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ExamSeasonStatus = table.Column<int>(type: "INTEGER", nullable: false),
-                    Faculty = table.Column<int>(type: "INTEGER", nullable: false),
-                    Semester = table.Column<int>(type: "INTEGER", nullable: false)
+                    LGRSId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExamSeasonStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Faculty = table.Column<int>(type: "int", nullable: false),
+                    Semester = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,11 +51,24 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Locations",
+                columns: table => new
+                {
+                    LocationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Locations", x => x.LocationId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Course_AcademicStaff",
                 columns: table => new
                 {
-                    CourseId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AcademicStaffId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    AcademicStaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,7 +82,7 @@ namespace Persistence.Migrations
                     table.ForeignKey(
                         name: "courseAcademicStaff",
                         column: x => x.CourseId,
-                        principalTable: "Course",
+                        principalTable: "Courses",
                         principalColumn: "CourseId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -93,11 +91,11 @@ namespace Persistence.Migrations
                 name: "LectureGroups",
                 columns: table => new
                 {
-                    LectureGroupId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    GroupName = table.Column<string>(type: "TEXT", nullable: true),
-                    TimeSlot = table.Column<string>(type: "TEXT", nullable: true),
-                    LGRSId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LectureGroupId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TimeSlot = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LGRSId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,18 +109,39 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LectureHalls",
+                columns: table => new
+                {
+                    LectureHallId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HallName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LectureHalls", x => x.LectureHallId);
+                    table.ForeignKey(
+                        name: "locationhall",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "LocationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Lectures",
                 columns: table => new
                 {
-                    LectureId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    StartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LectureType = table.Column<int>(type: "INTEGER", nullable: false),
-                    LectureHallId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CourseId = table.Column<int>(type: "INTEGER", nullable: false),
-                    AcademicStaffId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    LectureGroupId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LectureId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LectureType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LectureHallId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    AcademicStaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LectureGroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -158,6 +177,11 @@ namespace Persistence.Migrations
                 column: "LGRSId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LectureHalls_LocationId",
+                table: "LectureHalls",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Lectures_CourseId_AcademicStaffId",
                 table: "Lectures",
                 columns: new[] { "CourseId", "AcademicStaffId" });
@@ -191,10 +215,13 @@ namespace Persistence.Migrations
                 name: "AcademicStaff");
 
             migrationBuilder.DropTable(
-                name: "Course");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "LGRS");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
         }
     }
 }

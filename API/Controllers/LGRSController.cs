@@ -1,4 +1,5 @@
 
+using Application.Commands.LGRS;
 using Application.DTOs.LGRSDtos;
 using Application.Queries.LGRS;
 using Domain;
@@ -16,7 +17,7 @@ namespace API.Controllers
         {
             var lgrs = await Mediator.Send(new GetAllLGRS.Query());
 
-            return lgrs;
+            return HandleResult(lgrs);
         }
 
         [HttpGet("{id}")]
@@ -24,7 +25,27 @@ namespace API.Controllers
         {
             var lgrs = await Mediator.Send(new GetLGRSById.Query { LGRSId = id});
 
-            return lgrs;
+            return HandleResult(lgrs);
+        }
+        //ME NDREQ ME BO PER LGRS
+        [HttpPost]
+        public async Task<IActionResult> OpenLGRS(LGRSDto lgrsDto)
+        {
+
+            return HandleResult(await Mediator.Send(new OpenLGRS.Command { LGRSDto = lgrsDto }));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditLGRS(RequestLGRSDto lgrsDto, int id)
+        {
+
+            return HandleResult(await Mediator.Send(new EditLGRS.Command { LGRSDto = lgrsDto, LGRSId = id }));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteLGRS(int id)
+        {
+            return HandleResult(await Mediator.Send(new DeleteLGRS.Command { LGRSId = id }));
         }
     }
 }

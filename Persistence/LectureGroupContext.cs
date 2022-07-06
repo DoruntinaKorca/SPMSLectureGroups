@@ -20,7 +20,15 @@ namespace Persistence
 
         public DbSet<LectureGroupRegisteringSeason> LGRS { get; set; }
 
+        public DbSet<Course_AcademicStaff> Course_AcademicStaff { get; set; }
+
         public DbSet<LectureHall> LectureHalls { get; set; }
+
+        public DbSet<Location> Locations { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
+
+        public DbSet<AcademicStaff> AcademicStaff { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

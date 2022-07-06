@@ -1,4 +1,5 @@
-﻿using Application.DTOs.LectureDtos;
+﻿using Application.Core;
+using Application.DTOs.LectureDtos;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,11 @@ namespace Application.Queries.Lectures
 {
     public class GetLectureById
     {
-        public class Query : IRequest<LectureDto>
+        public class Query : IRequest<Result<LectureDto>>
         {
             public int LectureId { get; set; }
         }
-        public class Handler : IRequestHandler<Query, LectureDto>
+        public class Handler : IRequestHandler<Query, Result<LectureDto>>
         {
             private readonly LectureGroupContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +30,7 @@ namespace Application.Queries.Lectures
                 _mapper = mapper;
             }
 
-            public async Task<LectureDto> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<LectureDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var lectures = await _context.Lectures
                    .Include(x => x.LectureHall)
@@ -45,7 +46,7 @@ namespace Application.Queries.Lectures
 
                 var result = _mapper.Map<LectureDto>(lectures);
 
-                return result;
+                return Result<LectureDto>.Success(result);
             }
         }
     }

@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public enum ExamSeasonStatus
+    public enum LectureGroupSeasonStatus
     {
+        //me ja ndrru emrin me bo lectureGroupSeasonStatus
         Opened,
         Closed,
         In_Process
@@ -23,7 +24,7 @@ namespace Domain
 
         public DateTime EndDate { get; set; }
 
-        public String ExamSeasonStatus { get; set; }
+        public String LectureGroupSeasonStatus { get; set; }
         public int Faculty { get; set; }
 
         public int Semester { get; set; }

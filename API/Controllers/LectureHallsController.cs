@@ -1,4 +1,5 @@
 
+using Application.Commands.LectureHalls;
 using Application.DTOs.LectureHallDtos;
 using Application.Queries.LectureHalls;
 using Domain;
@@ -16,7 +17,7 @@ namespace API.Controllers
         {
             var lectureHalls = await Mediator.Send(new GetAllLectureHalls.Query());
 
-            return lectureHalls;
+            return HandleResult(lectureHalls);
         }
 
         [HttpGet("{id}")]
@@ -24,8 +25,29 @@ namespace API.Controllers
         {
             var lectureHall = await Mediator.Send(new GetLectureHallById.Query { LectureHallId = id});
 
-            return lectureHall;
+            return HandleResult(lectureHall);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddLectureHall(RequestLectureHallDto lectureHallDto)
+        {
+          return HandleResult(await Mediator.Send(new AddLectureHall.Command { LectureHallDto = lectureHallDto }));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditLectureHall(RequestLectureHallDto lectureHallDto, int id)
+        {
+
+          return HandleResult(await Mediator.Send(new EditLectureHall.Command { LectureHallDto = lectureHallDto, LectureHallId = id }));
+        }
+
+        [HttpDelete("{lectureHallId}")]
+        public async Task<IActionResult> DeleteLectureHall(int lectureHallId)
+        {
+          return  HandleResult(await Mediator.Send(new DeleteLectureHall.Command { LectureHallId = lectureHallId }));
+        }
+
 
     }
 }

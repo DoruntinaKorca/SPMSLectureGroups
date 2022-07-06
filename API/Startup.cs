@@ -36,8 +36,9 @@ namespace API
 
             services.AddDbContext<LectureGroupContext>(opt =>
             {
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-                opt.LogTo(Console.WriteLine);
+                //opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                // opt.LogTo(Console.WriteLine);
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);

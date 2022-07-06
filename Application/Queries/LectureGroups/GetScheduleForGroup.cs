@@ -1,4 +1,5 @@
-﻿using Application.DTOs.LectureDtos;
+﻿using Application.Core;
+using Application.DTOs.LectureDtos;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,11 @@ namespace Application.Queries.LectureGroups
 {
     public class GetScheduleForGroup
     {
-        public class Query : IRequest<List<ScheduleForStudentDto>>
+        public class Query : IRequest<Result<List<ScheduleForStudentDto>>>
         {
             public int LectureGroupId { get; set; }
         }
-        public class Handler : IRequestHandler<Query, List<ScheduleForStudentDto>>
+        public class Handler : IRequestHandler<Query, Result<List<ScheduleForStudentDto>>>
         {
             private readonly LectureGroupContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +30,7 @@ namespace Application.Queries.LectureGroups
                 _mapper = mapper;
             }
 
-            public async Task<List<ScheduleForStudentDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<ScheduleForStudentDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var schedule = await _context.Lectures
                     .Include(x => x.LectureHall)
@@ -46,7 +47,7 @@ namespace Application.Queries.LectureGroups
 
                 var result = _mapper.Map<List<ScheduleForStudentDto>>(schedule);
 
-                return result;
+                return Result<List<ScheduleForStudentDto>>.Success(result);
             }
         }
     }
