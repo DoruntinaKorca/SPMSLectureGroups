@@ -56,6 +56,8 @@ namespace Application.Core
 
             CreateMap<LectureGroup,LectureGroupDto>();
 
+            CreateMap<LectureGroup, LectureGroupPublishedDto>();
+
             CreateMap<LectureGroup, LectureGroupForLectureDto>();
 
             CreateMap<LectureGroupRegisteringSeason, LGRSDto>();
@@ -66,16 +68,22 @@ namespace Application.Core
 
             CreateMap<LectureGroup, LectureGroupWithLecturesDto>();
 
+            CreateMap<LectureGroup, RequestLectureGroupDto>();
 
             CreateMap<RequestLectureGroupDto, LectureGroup>();
-        //    CreateMap<EditLectureGroupDto, LectureGroup>();
+      
+
             CreateMap<RequestLGRSDto, LectureGroupRegisteringSeason>();
+
             CreateMap<RequestLectureDto, Lecture>();
-            //CreateMap<RequestLectureDto, Lecture>()
-            //    .ForPath(dest => dest.Course_AcademicStaff.Course.CourseId,
-            //opts => opts.MapFrom(src => src.CourseId))
-            //    .ForPath(dest => dest.Course_AcademicStaff.AcademicStaff.AcademicStaffId,
-            //opts => opts.MapFrom(src => src.AcademicStaffId));
+
+            CreateMap<AcademicStaffPublishedDto, AcademicStaff>()
+                .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.AcademicStaffId,
+                opt => opt.MapFrom(src => src.AcademicStaffId));
+
+
         }
     }
 }

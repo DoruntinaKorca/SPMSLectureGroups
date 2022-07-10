@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.SyncDataServices.Http;
+using Application.AsyncDataService;
 using Application.Core;
+using Application.Data;
+using Application.EventProcessing;
 using Application.Queries.Lectures;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -34,15 +38,25 @@ namespace API
 
             services.AddControllers();
 
+            services.AddHostedService<MessageBusSubscriber>();
+
             services.AddDbContext<LectureGroupContext>(opt =>
             {
                 //opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
                 // opt.LogTo(Console.WriteLine);
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddHttpClient<IUsersDataClient, HttpUsersDataClient>();
 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddMediatR(typeof(GetAllLectures.Handler).Assembly);
+
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
+
+            services.AddSingleton<IEventProcessor, EventProcessor>();
+
+            services.AddScoped<ILectureGroupRepo, LectureGroupRepo>();
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>

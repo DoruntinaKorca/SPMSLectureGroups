@@ -1,4 +1,5 @@
-﻿using Application.Core;
+﻿using Application.AsyncDataService;
+using Application.Core;
 using Application.DTOs.LectureGroupDtos;
 using AutoMapper;
 using Domain;
@@ -23,11 +24,13 @@ namespace Application.Commands.LectureGroups
         {
             private readonly LectureGroupContext _context;
             private readonly IMapper _mapper;
+            private readonly IMessageBusClient _messageBusClient;
 
-            public Handler(LectureGroupContext context, IMapper mapper)
+            public Handler(LectureGroupContext context, IMapper mapper, IMessageBusClient messageBusClient)
             {
                 _context = context;
                 _mapper = mapper;
+                _messageBusClient = messageBusClient;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -37,6 +40,24 @@ namespace Application.Commands.LectureGroups
                 await _context.LectureGroups.AddAsync(lectureGroup);
 
                 var result = await _context.SaveChangesAsync() > 0;
+
+
+                try
+                {
+                    var lectureGroupPublishedDto = _mapper.Map<LectureGroupPublishedDto>(lectureGroup);
+
+                    lectureGroupPublishedDto.Event = "LectureGroup_Published";
+
+                    _messageBusClient.PublishNewLectureGroup(lectureGroupPublishedDto);
+
+                  //  Console.WriteLine($"----> Could not send asynchronously");
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"----> Could not send asynchronously:{ex.Message}");
+                }
+
+
 
                 if (!result) return Result<Unit>.Failure("Failed to add Lecture Group");
 

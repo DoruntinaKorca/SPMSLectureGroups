@@ -1,4 +1,5 @@
 
+using API.SyncDataServices.Http;
 using Application.Commands.LectureGroups;
 using Application.DTOs.LectureDtos;
 using Application.DTOs.LectureGroupDtos;
@@ -14,6 +15,13 @@ namespace API.Controllers
 {
     public class LectureGroupsController : BaseApiController
     {
+        private readonly IUsersDataClient _usersDataClient;
+
+        public LectureGroupsController(IUsersDataClient usersDataClient)
+        {
+            _usersDataClient = usersDataClient;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<LectureGroupDto>>> GetAllLectureGroups()
         {
@@ -52,6 +60,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLectureGroup(RequestLectureGroupDto lectureGroupDto)
         {
+            await _usersDataClient.SendLectureGroupToUsers(lectureGroupDto);
             return HandleResult(await Mediator.Send(new AddLectureGroup.Command { LectureGroup = lectureGroupDto }));
         }
 
