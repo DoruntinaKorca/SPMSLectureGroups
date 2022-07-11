@@ -24,6 +24,12 @@ namespace Application.Data
           _context.AcademicStaff.Add(aStaff);
         }
 
+        public void DeleteAcademicStaff(AcademicStaff aStaff)
+        {
+            var us = _context.AcademicStaff.FirstOrDefault(x => x.AcademicStaffId == aStaff.AcademicStaffId);
+            _context.AcademicStaff.Remove(us);
+        }
+
         public bool ExternalAcademicStaffExists(Guid academicStaffId)
         {
             return _context.AcademicStaff.Any(a => a.AcademicStaffId == academicStaffId);

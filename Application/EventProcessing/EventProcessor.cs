@@ -32,6 +32,9 @@ namespace Application.EventProcessing
                 case EventType.AcademicStaffPublished:
                     addAcademicStaff(message);
                     break;
+                case EventType.UserDeleted:
+                    deleteAcademicStaff(message);
+                    break;
                 default:
                     break;
             }
@@ -47,6 +50,9 @@ namespace Application.EventProcessing
                 case "AcademicStaff_Published":
                     Console.WriteLine("---> AcademicStaff Published Event Detected");
                     return EventType.AcademicStaffPublished;
+                case "Deleted_User_Published":
+                    Console.WriteLine("---> DeleteUserf Published Event Detected");
+                    return EventType.UserDeleted;
                 default:
                     Console.WriteLine("---> Could not determine the event type");
                     return EventType.Undetermined;
@@ -83,11 +89,36 @@ namespace Application.EventProcessing
             }
             }
         }
-        
+        private void deleteAcademicStaff(string academicStaffPublishedMessage)
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var repo = scope.ServiceProvider.GetRequiredService<ILectureGroupRepo>();
+
+                var academicStaffDeletedDto = JsonSerializer
+                    .Deserialize<DeleteAcademicStaffPublishedDto>(academicStaffPublishedMessage);
+
+                try
+                {
+                    var academicStaff = _mapper.Map<AcademicStaff>(academicStaffDeletedDto);
+                    
+                        repo.DeleteAcademicStaff(academicStaff);
+                        repo.SaveChanges();
+                        Console.WriteLine("--->AcademicStaff deleted...");
+                    
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"---> could not delete AcademicStaff from DB {ex.Message}");
+                }
+            }
+        }
+
     }
     enum EventType
     {
         AcademicStaffPublished,
+        UserDeleted,
         Undetermined
     }
 }

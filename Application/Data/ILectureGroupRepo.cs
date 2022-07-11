@@ -13,6 +13,8 @@ namespace Application.Data
 
         void CreateAcademicStaff(AcademicStaff aStaff);
 
+        void DeleteAcademicStaff(AcademicStaff aStaff);
+
         bool SaveChanges();
     }
 }

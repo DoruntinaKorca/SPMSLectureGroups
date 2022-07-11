@@ -83,6 +83,11 @@ namespace Application.Core
                 .ForMember(dest => dest.AcademicStaffId,
                 opt => opt.MapFrom(src => src.AcademicStaffId));
 
+            CreateMap<DeleteAcademicStaffPublishedDto, AcademicStaff>()
+             .ForMember(dest => dest.AcademicStaffId,
+             opt => opt.MapFrom(src => src.AcademicStaffId));
+
+
 
         }
     }
