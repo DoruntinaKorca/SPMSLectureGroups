@@ -10,7 +10,7 @@ using Application.Core;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/lecturegroupservice/[controller]")]
     public class BaseApiController : ControllerBase
     {
 
