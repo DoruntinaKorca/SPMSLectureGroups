@@ -35,6 +35,7 @@ namespace Application.Queries.Lectures
                 var schedule = await _context.Lectures
                     .Include(x => x.LectureHall)
                     .ThenInclude(x => x.Location)
+                    .Include(x => x.Day)
                     .Include(x => x.Course_AcademicStaff)
                     .Include(x => x.Course_AcademicStaff.Course)
                     .Include(x => x.LectureGroup)

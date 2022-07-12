@@ -28,11 +28,29 @@ namespace Persistence
 
         public DbSet<Course> Courses { get; set; }
 
+        public DbSet<Day> Days  { get; set; }
+
+        public DbSet<TimeSlot> TimeSlots { get; set; }
+
         public DbSet<AcademicStaff> AcademicStaff { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Lecture>()
+                .HasOne(h => h.Day)
+                .WithMany(le => le.Lectures)
+                .HasForeignKey(fk => fk.DayId)
+                .HasConstraintName("Lectures_Days")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<LectureGroup>()
+                .HasOne(h => h.TimeSlot)
+                .WithMany(le => le.LectureGroups)
+                .HasForeignKey(fk => fk.TimeSlotId)
+                .HasConstraintName("Lecturegroupss_timest");
+
 
             builder.Entity<Lecture>()
                 .HasOne(h=>h.LectureHall)

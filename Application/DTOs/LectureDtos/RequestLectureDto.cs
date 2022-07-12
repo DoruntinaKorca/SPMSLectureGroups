@@ -19,6 +19,8 @@ namespace Application.DTOs.LectureDtos
 
         public int LectureGroupId { get; set; }
 
+        public int DayId { get; set; }
+
         public int LectureHallId { get; set; }
 
 

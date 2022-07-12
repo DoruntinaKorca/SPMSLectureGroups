@@ -26,6 +26,6 @@ namespace Application.DTOs.LectureDtos
         public String LectureType { get; set; }
         public int LectureHallId { get; set; }
 
-
+        public int DayId { get; set; }
     }
 }

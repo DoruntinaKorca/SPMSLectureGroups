@@ -12,6 +12,6 @@ namespace Application.DTOs.LectureGroupDtos
 
         public String GroupName { get; set; }
 
-        public String TimeSlot { get; set; }
+        public TimeSlotDto TimeSlot { get; set; }
     }
 }

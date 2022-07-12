@@ -39,6 +39,7 @@ namespace Application.Queries.LectureGroups
                     .Include(x => x.Course_AcademicStaff.Course)
                     .Include(x => x.Course_AcademicStaff.AcademicStaff)
                     .Include(x => x.LectureGroup)
+                    .Include(x => x.Day)
                     .Where(x => x.LectureGroupId == request.LectureGroupId)
                     .ToListAsync();
 

@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.LectureGroupDtos
 {
-    public class RequestLectureGroupDto
+    public class TimeSlotDto
     {
-        public int LectureGroupId { get; set; }
-
-        public String GroupName { get; set; }
-
         public int TimeSlotId { get; set; }
 
-        public int LGRSId { get; set; }
+        public String SlotName { get; set; }
     }
 }

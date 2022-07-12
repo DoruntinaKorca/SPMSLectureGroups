@@ -21,6 +21,8 @@ namespace Application.DTOs.LectureDtos
 
         public LectureHallDto LectureHall { get; set; }
 
+        public DaysDto Day { get; set; }
+
         public CourseDto Course { get; set; }
 
         public LectureGroupForLectureDto LectureGroup { get; set; }

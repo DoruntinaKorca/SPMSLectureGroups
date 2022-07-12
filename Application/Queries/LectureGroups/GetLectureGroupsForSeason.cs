@@ -43,20 +43,9 @@ namespace Application.Queries.LectureGroups
 
 
                 var lectureGroups = await _context.LectureGroups.Where(x=>x.LGRSId == currentlyOpenedLGRS.LGRSId)
-                  // .Include(x => x.LGRS)
+                  .Include(x => x.TimeSlot)
                     .Include(x => x.Lectures)
                     .ThenInclude(c=>c.Course_AcademicStaff)
-                    // .ThenInclude(c => c.Course_AcademicStaff)
-                  // .ThenInclude(c => c.LectureHall)
-                //   .Include(c => c.Lectur)
-                /*  .Select(
-                    x => new LectureGroup
-                    {
-                       LectureGroupId=x.LectureGroupId,
-                       Lectures=x.Lectures,
-                       GroupName=x.GroupName,
-                       TimeSlot=x.TimeSlot
-                    }) */
                 .ToListAsync();
 
                 var result = _mapper.Map<List<LectureGroupWithLecturesDto>>(lectureGroups);

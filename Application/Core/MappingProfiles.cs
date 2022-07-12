@@ -56,6 +56,8 @@ namespace Application.Core
 
             CreateMap<LectureGroup,LectureGroupDto>();
 
+            CreateMap<TimeSlot, TimeSlotDto>();
+
             CreateMap<LectureGroup, LectureGroupPublishedDto>();
 
             CreateMap<LectureGroup, LectureGroupForLectureDto>();
@@ -63,6 +65,8 @@ namespace Application.Core
             CreateMap<LectureGroupRegisteringSeason, LGRSDto>();
             CreateMap<LGRSDto, LectureGroupRegisteringSeason>();
             CreateMap<LectureHall, LectureHallDto>();
+
+            CreateMap<Day, DaysDto>();
 
             CreateMap<RequestLectureHallDto, LectureHall>();
 

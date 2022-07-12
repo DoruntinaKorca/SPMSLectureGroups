@@ -39,6 +39,7 @@ namespace Application.Queries.Lectures
                     .Include(x=>x.Course_AcademicStaff.Course )
                     .Include(x=>x.Course_AcademicStaff.AcademicStaff)
                     .Include(x=>x.LectureGroup)
+                    .Include(x => x.Day)
                     .ToListAsync();
 
                 var result = _mapper.Map<List<LectureDto>>(lectures);

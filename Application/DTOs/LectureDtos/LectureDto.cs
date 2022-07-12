@@ -22,7 +22,7 @@ namespace Application.DTOs.LectureDtos
         public String LectureType { get; set; }
 
 
-
+        public DaysDto Day { get; set; }
         public LectureHallDto LectureHall { get; set; }
 
         public CourseDto Course { get; set; }

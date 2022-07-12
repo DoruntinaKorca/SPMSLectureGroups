@@ -34,6 +34,7 @@ namespace Application.Queries.LectureGroups
             {
                 var lecturegroups = await _context.LectureGroups
                     .Include(x=>x.LGRS)
+                    .Include(x => x.TimeSlot)
                     .ToListAsync();
 
                 var result = _mapper.Map<List<LectureGroupDto>>(lecturegroups);

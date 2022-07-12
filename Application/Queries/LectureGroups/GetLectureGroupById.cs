@@ -35,6 +35,7 @@ namespace Application.Queries.LectureGroups
             {
                 var lectureGroup = await _context.LectureGroups
                     .Include(x => x.LGRS)
+                    .Include(x => x.TimeSlot)
                     .FirstOrDefaultAsync(x => x.LectureGroupId == request.LectureGroupId);
 
 

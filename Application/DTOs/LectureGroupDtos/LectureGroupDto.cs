@@ -13,8 +13,8 @@ namespace Application.DTOs.LectureGroupDtos
 
         public String GroupName { get; set; }
 
-        public String TimeSlot { get; set; }
-     //   public int LGRSId { get; set; }
+        public TimeSlotDto TimeSlot { get; set; }
+      
         public LGRSDto LGRS { get; set; }
     }
 }

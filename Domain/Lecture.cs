@@ -22,6 +22,11 @@ namespace Domain
         public DateTime EndTime { get; set; }
 
         public String LectureType { get; set; }
+
+        public int? DayId { get; set; }
+
+        public Day Day { get; set; }
+
         public int LectureHallId { get; set; }
 
         public LectureHall LectureHall { get; set; }
